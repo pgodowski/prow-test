@@ -1,155 +1,26 @@
+periodics:
+- interval: 10m
+  name: echo-test
+  decorate: true
+  spec:
+    containers:
+    - image: alpine
+      command: ["/bin/date"]
 presubmits:
   pgodowski/prow-test:
-  - name: build_ibm-iam-operator
-    branches:
-    - ^master$
-    - ^release-ltsr$
-    - ^release-cd$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
+  - name: test-presubmit
     decorate: true
     always_run: true
-    path_alias: github.com/pgodowski/prow-test
-    rerun_command: /test build ibm-iam-operator
+    skip_report: true
     spec:
       containers:
-      - command:
-        - entrypoint
-        - make
-        - build
-        image: quay.io/multicloudlab/build-tool:v20221107-3b1566bf9
-        name: ""
-        securityContext:
-          privileged: true
-    trigger: '(?m)^/test (?:.*? )?build(?: .*?)?$'
-  - name: check_ibm-iam-operator
-    branches:
-    - ^master$
-    - ^release-ltsr$
-    - ^release-cd$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
-    decorate: true
-    always_run: true
-    path_alias: github.com/pgodowski/prow-test
-    rerun_command: /test check ibm-iam-operator
-    spec:
-      containers:
-      - command:
-        - make
-        - check
-        image: quay.io/multicloudlab/check-tool:v20221107-59a355d03
-        name: ""
-        securityContext:
-          privileged: true
-    trigger: '(?m)^/test (?:.*? )?check(?: .*?)?$'
-  - name: test_ibm-iam-operator
-    branches:
-    - ^master$
-    - ^release-ltsr$
-    - ^release-cd$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
-    decorate: true
-    always_run: true
-    path_alias: github.com/pgodowski/prow-test
-    rerun_command: /test test ibm-iam-operator
-    spec:
-      containers:
-      - command:
-        - entrypoint
-        - make
-        - test
-        image: quay.io/multicloudlab/build-tool:v20221107-3b1566bf9
-        name: ""
-        securityContext:
-          privileged: true
-    trigger: '(?m)^/test (?:.*? )?test(?: .*?)?$'
-
+      - image: alpine
+        command: ["/bin/printenv"]
 postsubmits:
   pgodowski/prow-test:
-  - name: check_ibm-iam-operator_postsubmit
-    branches:
-    - ^master$
-    - ^release-ltsr$
-    - ^release-cd$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
+  - name: test-postsubmit
     decorate: true
-    path_alias: github.com/pgodowski/prow-test
     spec:
       containers:
-      - command:
-        - make
-        - check
-        image: quay.io/multicloudlab/check-tool:v20221107-59a355d03
-        name: ""
-        securityContext:
-          privileged: true
-  - name: test_ibm-iam-operator_postsubmit
-    branches:
-    - ^master$
-    - ^release-ltsr$
-    - ^release-cd$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
-    decorate: true
-    path_alias: github.com/pgodowski/prow-test
-    spec:
-      containers:
-      - command:
-        - entrypoint
-        - make
-        - test
-        image: quay.io/multicloudlab/build-tool:v20221107-3b1566bf9
-        name: ""
-        securityContext:
-          privileged: true
-  - name: build_ibm-iam-operator_postsubmit
-    branches:
-    - ^master$
-    - ^release-ltsr$
-    - ^release-cd$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
-    decorate: true
-    path_alias: github.com/pgodowski/prow-test
-    spec:
-      containers:
-      - command:
-        - entrypoint
-        - make
-        - build
-        image: quay.io/multicloudlab/build-tool:v20221107-3b1566bf9
-        name: ""
-        securityContext:
-          privileged: true
-  - name: images_ibm-iam-operator_postsubmit
-    branches:
-    - ^master$
-    - ^release-ltsr$
-    - ^release-cd$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
-    decorate: true
-    path_alias: github.com/pgodowski/prow-test
-    labels:
-      preset-service-account: "true"
-    spec:
-      containers:
-      - command:
-        - entrypoint
-        - make
-        - images
-        image: quay.io/multicloudlab/build-tool:v20221107-3b1566bf9
-        name: ""
-        securityContext:
-          privileged: true
-
+      - image: alpine
+        command: ["/bin/printenv"]
