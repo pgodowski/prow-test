@@ -1,6 +1,6 @@
 periodics:
 - interval: 10m
-  name: echo-test
+  name: echo-test123
   decorate: true
   spec:
     containers:
@@ -11,7 +11,7 @@ presubmits:
   - name: test-presubmit
     decorate: true
     always_run: true
-    skip_report: true
+    skip_report: false
     spec:
       containers:
       - image: alpine
