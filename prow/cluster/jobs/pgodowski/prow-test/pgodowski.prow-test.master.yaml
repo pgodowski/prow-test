@@ -1,6 +1,6 @@
 periodics:
 - interval: 10m
-  name: echo-test
+  name: echo-test123
   decorate: true
   spec:
     containers:
