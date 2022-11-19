@@ -27,6 +27,32 @@ presubmits:
         name: ""
         securityContext:
           privileged: true
+    trigger: '(?m)^/test (?:.*? )?build(?: .*?)?$'
+  - name: test-presubmit
+    decorate: true
+    always_run: true
+    skip_report: false
+    spec:
+      containers:
+      - image: alpine
+        command: ["/bin/printenv"]
+  - name: pull-test-infra-prow-checkconfig
+    branches:
+      - ^master$
+    decorate: true
+    spec:
+      containers:
+      - image: gcr.io/k8s-prow/checkconfig:v20190703-1f4d61631
+        command:
+        - /checkconfig
+        args:
+        - --config-path=prow/config.yaml
+        - --job-config-path=prow/cluster/jobs
+        - --plugin-config=prow/plugins.yaml
+        - --strict
+        - --exclude-warning=mismatched-tide
+        - --exclude-warning=unknown-fields
+        - --exclude-warning=non-decorated-jobs
 postsubmits:
   pgodowski/prow-test:
   - name: test-postsubmit
