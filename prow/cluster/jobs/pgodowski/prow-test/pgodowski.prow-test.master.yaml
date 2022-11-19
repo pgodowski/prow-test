@@ -1,11 +1,9 @@
-periodics:
-- interval: 10m
-  name: echo-test123
-  decorate: true
-  spec:
-    containers:
-    - image: alpine
-      command: ["/bin/date"]
+default_decoration_config:
+ utility_images: # using the tag we identified above
+   clonerefs: "quay.io/multicloudlab/k8s-prow-clonerefs:v20200311-50c69dc34"
+   initupload: "quay.io/multicloudlab/k8s-prow-initupload:v20200311-50c69dc34"
+   entrypoint: "quay.io/multicloudlab/k8s-prow-entrypoint:v20200311-50c69dc34"
+   sidecar: "quay.io/multicloudlab/k8s-prow-sidecar:v20200311-50c69dc34"
 presubmits:
   pgodowski/prow-test:
   - name: test-presubmit
