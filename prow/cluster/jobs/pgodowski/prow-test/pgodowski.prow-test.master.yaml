@@ -6,31 +6,27 @@ default_decoration_config:
    sidecar: "quay.io/multicloudlab/k8s-prow-sidecar:v20200311-50c69dc34"
 presubmits:
   pgodowski/prow-test:
-  - name: test-presubmit
+  - name: build_ibm-metering-operator
+    branches:
+    - ^master$
+    - ^release-future$
+    - ^release-efix$
+    - ^release-eus$
+    - ^release-k$
     decorate: true
     always_run: true
-    skip_report: false
+    path_alias: github.com/IBM/ibm-metering-operator
+    rerun_command: /test build ibm-metering-operator
     spec:
       containers:
-      - image: alpine
-        command: ["/bin/printenv"]
-  - name: pull-test-infra-prow-checkconfig
-    branches:
-      - ^master$
-    decorate: true
-    spec:
-      containers:
-      - image: gcr.io/k8s-prow/checkconfig:v20190703-1f4d61631
-        command:
-        - /checkconfig
-        args:
-        - --config-path=prow/config.yaml
-        - --job-config-path=prow/cluster/jobs
-        - --plugin-config=prow/plugins.yaml
-        - --strict
-        - --exclude-warning=mismatched-tide
-        - --exclude-warning=unknown-fields
-        - --exclude-warning=non-decorated-jobs
+      - command:
+        - entrypoint
+        - make
+        - build
+        image: quay.io/multicloudlab/build-tool:v20221107-3b1566bf9
+        name: ""
+        securityContext:
+          privileged: true
 postsubmits:
   pgodowski/prow-test:
   - name: test-postsubmit
