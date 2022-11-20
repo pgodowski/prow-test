@@ -17,8 +17,6 @@ presubmits:
         - build
         image: quay.io/multicloudlab/build-tool:v20221107-3b1566bf9
         name: ""
-        securityContext:
-          privileged: true
   - name: test-presubmit1
     decorate: true
     always_run: true
