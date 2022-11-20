@@ -7,16 +7,8 @@ default_decoration_config:
 presubmits:
   pgodowski/prow-test:
   - name: build_ibm-metering-operator
-    branches:
-    - ^master$
-    - ^release-future$
-    - ^release-efix$
-    - ^release-eus$
-    - ^release-k$
     decorate: true
     always_run: true
-    path_alias: github.com/IBM/ibm-metering-operator
-    rerun_command: /test build ibm-metering-operator
     spec:
       containers:
       - command:
@@ -27,9 +19,17 @@ presubmits:
         name: ""
         securityContext:
           privileged: true
+  - name: test-presubmit1
+    decorate: true
+    always_run: true
+    skip_report: false
+    spec:
+      containers:
+      - image: alpine
+        command: ["/bin/printenv"]
 postsubmits:
   pgodowski/prow-test:
-  - name: test-postsubmit
+  - name: test-postsubmit2
     decorate: true
     spec:
       containers:
